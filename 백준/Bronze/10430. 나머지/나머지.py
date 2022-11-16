@@ -1,0 +1,8 @@
+d=input().split()
+A=int(d[0])
+B=int(d[1])
+C=int(d[2])
+print((A+B)%C)
+print((A%C + B%C)%C)
+print((A*B)%C)
+print(((A%C) * (B%C))%C)
