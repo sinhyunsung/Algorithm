@@ -1,18 +1,15 @@
-#include<iostream>
-#include <string>
+#include <iostream>
 #include <vector>
-#include <sstream>
 #include <algorithm>
 #include <unordered_map>
+#include <cstdio>
 
 using namespace std;
 
 #define ll long long
 
 int n;
-int v[500000];
-int v_sort[500000];
-unordered_map<int, int> idx;
+pair<int,int> arr[500001];
 int tree[2000000] = { 0 };
 
 void update(int node,int target, int start, int end) {
@@ -38,25 +35,32 @@ int query(int node, int target, int start, int end) {
     return query(node * 2, target, start, mid) + query(node * 2 + 1, target, mid + 1, end);
 }
 
+
+bool cmp(pair<int,int> &a, pair<int,int> &b){
+    return a.second < b.second;
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    
-    cin >> n;
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-        v_sort[i] = v[i];
-    }
-    sort(v_sort, v_sort+n);
-    for (int i = 0; i < n; i++) {
-        idx[v_sort[i]] = i;
+    cin>>n;
+    for(int i = 1; i <= n; i++){
+        cin >> arr[i].first;
+        arr[i].second = i;
     }
 
-    for (int i = 0; i < n; i++) {
-        update(1, idx[v[i]], 0, n - 1);
-        cout << (i+2)-query(1, idx[v[i]], 0, n - 1) << "\n";
+    sort(arr+1, arr+n+1);
+    for(int i = 1; i <= n; i++){
+        arr[i].first = i;
+    }
+    sort(arr+1, arr+n+1, cmp);
+
+    for (int i = 1; i <= n; i++) {
+        update(1, arr[i].first, 1, n );
+        cout << (i+1)-query(1, arr[i].first, 1, n ) << "\n";
     }
 
 
+    return 0;
 }
